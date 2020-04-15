@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import QrReader from 'react-qr-reader';
+import { Editor } from '@tinymce/tinymce-react'; 
 import {FormGroup,FormControl, Button} from 'react-bootstrap';
 
 
 export default class GenerateReport extends Component {
-	state = {title:'',departments:'',medications:'',prescriptions:'',description : '',publicKey : '', privateKey : '',receiver : '',showScanner : false}
+	state = {title:'',departments:'',medications:'',prescriptions:'',description : '',publicKey : '', privateKey : '',receiver : '',showScanner : false, loading:true}
 	constructor(props){
 		super(props);
 		}
@@ -15,7 +16,7 @@ export default class GenerateReport extends Component {
 	onDepartmentsChange = event => { this.setState({departments: event.target.value}) }
 	onMedicationsChange = event => { this.setState({medications: event.target.value}) }
 	onPrescriptionsChange = event => { this.setState({prescriptions: event.target.value}) }
-	onDescriptionChange = event => { this.setState({description: event.target.value}) }
+	onDescriptionChange = event => { this.setState({description: event.target.getContent()}) }
 	onReceiverChange = event => {this.setState({receiver : event.target.value}) }
 	onFormSubmit = event => { 
 		const {title, publicKey, privateKey, departments, medications, prescriptions, description, receiver} = this.state;
@@ -39,14 +40,14 @@ export default class GenerateReport extends Component {
 				})
 			})
 			.then(res=>res.json())
-			.then(json=> console.log(json))
+			.then(json=> this.setState({loading : false}));
 	}
 	toggleQrScan = ()=> {
 		this.setState({showScanner : !this.state.showScanner});
 		}
     handleScan = data => {
 		if (data) {
-		  this.setState({receiver: data});
+		  this.setState({receiver: data, showScanner : false});
 		}
     }
 	handleError = err => {
@@ -90,21 +91,36 @@ export default class GenerateReport extends Component {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<FormControl
-						input = "text"
-						placeholder = "Description"
-						value = {this.state.description}
-						onChange = {this.onDescriptionChange}
-					/>
+					      <Editor
+								initialValue="<p>Description</p>"
+								apiKey="glhj4y8xn7gjz34qqykxe2ajrdalxl0r40efi9vblmakz35f"
+								init={{
+								  height: 500,
+								  menubar: false,
+								  plugins: [
+									'advlist autolink lists link image', 
+									'charmap print preview anchor help',
+									'searchreplace visualblocks code',
+									'insertdatetime media table paste wordcount'
+								  ],
+								  toolbar:
+									'undo redo | formatselect | bold italic | \
+									alignleft aligncenter alignright | \
+									bullist numlist outdent indent | help'
+								}}
+								onChange={this.onDescriptionChange}
+							/>
 				</FormGroup>
 				{
 				this.state.showScanner ? (
-				 <QrReader
-					  delay={300}
-					  onError={this.handleError}
-					  onScan={this.handleScan}
-					  style={{ width: '100%' }}
-				/>
+				 <div className="make-modal">
+					<QrReader
+						delay={300}
+						onError={this.handleError}
+						onScan={this.handleScan}
+						style={{ width: '100%' }}
+					/>
+				</div>
 				) : (<div></div>)
 				}
 				<FormGroup>
@@ -115,8 +131,8 @@ export default class GenerateReport extends Component {
 						onChange = {this.onReceiverChange}
 					/>
 				</FormGroup>
-				<Button bsStyle="danger" onClick={this.toggleQrScan}> {this.state.showScanner ? 'Cancel' : 'Scan QR'}</Button>
-				<Button bsStyle="danger" onClick={this.onFormSubmit} > Submit </Button>	
+				<Button bsStyle="danger" className="mr-2" onClick={this.toggleQrScan}> {this.state.showScanner ? 'Cancel' : 'Scan QR'}</Button>
+				<Button bsStyle="danger" onClick={this.onFormSubmit} > {this.state.loading ? 'Submit' : 'Shared'} </Button>	
             </FormGroup>
 	
 	

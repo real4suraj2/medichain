@@ -3,8 +3,18 @@ import QRCode from 'react-google-qrcode';
 
 import {FormGroup, FormControl, Button} from 'react-bootstrap';
 
+import { css } from "@emotion/core";
+import { CircleLoader } from "react-spinners";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  background-color : transparent;
+`;
+
 export default class GenerateDepartment extends Component {
-	state = {email: '', password: '', confirmPassword: '',name : '',message: ''}
+	state = {email: '', password: '', confirmPassword: '',name : '',message: '', loading : false}
 	constructor(props){
 		super(props);
 		}
@@ -22,19 +32,34 @@ export default class GenerateDepartment extends Component {
 		}
 	onFormSubmit = event => {
 		const {email, password, confirmPassword, name } = this.state;
+		this.setState({loading : true});
 		fetch(`${document.location.origin}/api/signUp`,{
 			method : 'POST',
 			headers : { 'Content-Type' : 'application/json' },
 			body : JSON.stringify({email, password, confirmPassword, name, type : 'department'})
 			})
 		.then(res => res.json())
-		.then(json => this.setState({message: json.message}));
+		.then(json => {
+			this.setState({loading : false});
+			this.setState({message: json.message});
+			});
 		
 		}
+	
 	render(){
 		const {message} = this.state;
 		return(
 		<div>
+			{
+			this.state.loading ? (<div className="sweet-loading">
+					<CircleLoader
+					  css={override}
+					  size={150}
+					  color={"#F71B56"}
+					  loading={this.state.loading}
+					/>
+					</div>) : (<div></div>)
+			}
 			{
 			message !== '' && message.length < 80 ? (<div>{message}</div>) : (<div></div>)	
 			}
@@ -54,7 +79,7 @@ export default class GenerateDepartment extends Component {
           <div>
 			Department Creation Successful !! Validation request has been sent to the central authority , please reach the central authority for verification with the provided Address.
           </div>
-			</div>) : (<div>	
+			</div>) : (<div className="department-form">	
 			<FormGroup>
 				<FormGroup>
 					<FormControl 
@@ -92,7 +117,7 @@ export default class GenerateDepartment extends Component {
 					 onChange={this.onConfirmPasswordChange}
 					/>
 				</FormGroup>
-				<Button bsStyle="danger" onClick={this.onFormSubmit}> Request </Button>
+				<Button bsStyle="danger" className="danger-full" onClick={this.onFormSubmit}> Request </Button>
 			</FormGroup>
 			</div>)
 		}

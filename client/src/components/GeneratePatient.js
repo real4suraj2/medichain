@@ -1,8 +1,18 @@
 import React, {Component} from 'react';
+
 import {FormGroup, FormControl, Radio, Button} from 'react-bootstrap';
 
+import { css } from "@emotion/core";
+import { CircleLoader } from "react-spinners";
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  background-color : transparent;
+`;
+
 export default class GeneratePatient extends Component {
-	state = {email : '', password : '', confirmPassword : '', name : '', dob : '', sex : '', message : ''}
+	state = {email : '', password : '', confirmPassword : '', name : '', dob : '', sex : '', message : '', loading : false}
 	constructor(props){
 		super(props);
 		}
@@ -26,18 +36,32 @@ export default class GeneratePatient extends Component {
 		}
 	onFormSubmit = event => {
 		const {email, password, confirmPassword, dob, name, sex} = this.state;
+		this.setState({loading : true});
 		fetch(`${document.location.origin}/api/signUp`,{
 			method : 'POST',
 			headers : {'Content-Type' : 'application/json'},
 			body : JSON.stringify({email, password, dob, name, sex, type : 'patient'})
 			})
 			.then(res => res.json())
-			.then(json => this.setState({message : json.message}));
+			.then(json => {
+				this.setState({loading : false});
+				this.setState({message : json.message})
+				});
 		}
 	render(){
 		const {message} = this.state;
 		return(
-		<div>
+		<div className="patient-form">
+		{
+			this.state.loading ? (<div className="sweet-loading">
+					<CircleLoader
+					  css={override}
+					  size={150}
+					  color={"#F71B56"}
+					  loading={this.state.loading}
+					/>
+					</div>) : (<div></div>)
+			}
 		{
 		message ? (<div>{message}</div>) : (<div></div>)
 		}
@@ -90,7 +114,7 @@ export default class GeneratePatient extends Component {
 				<Radio name = "groupOptions" onClick={()=>this.onSexChange('male')}>Male</Radio>
 				<Radio name = "groupOptions" onClick={()=>this.onSexChange('female')}>Female</Radio>
 			</FormGroup>
-			<Button bsStyle="danger" onClick={this.onFormSubmit} > Register </Button>
+			<Button bsStyle="danger" className="danger-full" onClick={this.onFormSubmit} > Register </Button>
 		</FormGroup>
 		</div>
 		)

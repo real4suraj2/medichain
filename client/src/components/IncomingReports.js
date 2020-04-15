@@ -1,4 +1,6 @@
 import React,{ Component } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import IncomingReport from './IncomingReport';
 
 export default class IncomingReports extends Component {
@@ -22,9 +24,9 @@ export default class IncomingReports extends Component {
 	render(){
 		const reports = this.state.incomingReports;
 		return(
-		<div>
+		<Scrollbars style={{ height: 300 }}>
 		{ reports.map(report=> (<IncomingReport incomingReport={report} key={'incoming' + report.id}  onhandleShare={this.props.onShare}/>)) }
-		</div>
+		</Scrollbars>
 		)
 		}
 	

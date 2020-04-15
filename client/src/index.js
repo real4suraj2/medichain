@@ -6,8 +6,7 @@ import App from './components/App';
 
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-import CreateDepartment from './components/CreateDepartment';
-import GenerateReport from './components/GenerateReport';
+import Mine from './components/Mine';
 import './index.css';
 
 render(
@@ -16,6 +15,7 @@ render(
       <Route exact path='/' component={App} />
       <Route path='/login' component={Login} />
       <Route path='/signUp' component={SignUp} />
+      <Route path='/mine' component={Mine} />
     </Switch>
   </Router>,
   document.getElementById('root')

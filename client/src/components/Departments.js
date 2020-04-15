@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export default class PatientReports extends Component {
 		state = { departments : [] }
@@ -16,19 +17,14 @@ export default class PatientReports extends Component {
 		}
 		render(){
 			const departments = this.state.departments;
-			console.log(departments);
 			return(
-				<div>
-					{ departments.map(department => (
-						<div className="card">
-							<div className="card-body">
-								<div className="card-title">Department Address</div>
-								<div className="card-subtitle mb-2 text-muted">Address : {department}</div>							
-							</div>
-						</div>
-						)
-						) }
-				</div>
+			<div className="department-list black">
+				<Scrollbars
+					style={{ height: 300 }}>
+						{ departments.map(department => (<p className="card-maker Block">Address {department} </p>)) }
+				</Scrollbars>
+			</div>
 			)
 			}
+
 	}

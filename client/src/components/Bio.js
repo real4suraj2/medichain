@@ -25,12 +25,11 @@ export default class Bio extends Component {
 								<div>
 									<div className="card">
 										<div className="card-body">
-											  <div className="card-title">BIO</div>
 											  <div className="card-text">
-												  <ListGroup>
-													<ListGroupItem className="active">Name : {name} </ListGroupItem>
-													<ListGroupItem className="active">Sex : {bio.sex} </ListGroupItem>
-													<ListGroupItem className="active">DOB : {bio.dob} </ListGroupItem>
+												  <ListGroup className="list-show">
+													<ListGroupItem>Name : {name} </ListGroupItem>
+													<ListGroupItem>Sex : {bio.sex} </ListGroupItem>
+													<ListGroupItem>DOB : {bio.dob} </ListGroupItem>
 												  </ListGroup>
 											  </div>
 										</div>
@@ -41,17 +40,16 @@ export default class Bio extends Component {
 			}
 			{
 				(view && kind === 'department') ? (
-								<div>
+								<div className="bio">
 									<div className="card">
 										<div className="card-body">
-											  <div className="card-title">BIO</div>
 											  <div className="card-text">
-												  <ListGroup>
-													<ListGroupItem className="active">Department Name : {name} </ListGroupItem>
-													<ListGroupItem className="active">Type: {bio.departmentType} </ListGroupItem>
-													<ListGroupItem className="active">Facilitites : {bio.departmentFacilities} </ListGroupItem>
-												    <ListGroupItem className="active">Location: {bio.departmentLocation} </ListGroupItem>
-												    <ListGroupItem className="active">Issuer: {bio.issuer} </ListGroupItem>
+												  <ListGroup className="list-show">
+													<ListGroupItem>Department Name : {name} </ListGroupItem>
+													<ListGroupItem>Type: {bio.departmentType} </ListGroupItem>
+													<ListGroupItem>Facilitites : {bio.departmentFacilities} </ListGroupItem>
+												    <ListGroupItem>Location: {bio.departmentLocation} </ListGroupItem>
+												    <ListGroupItem>Issuer: {bio.issuer} </ListGroupItem>
 												  </ListGroup>
 											  </div>
 										</div>

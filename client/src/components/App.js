@@ -4,7 +4,10 @@ import QRCode from 'react-google-qrcode';
 import QrReader from 'react-qr-reader'
 import {Button, Tabs, Tab} from 'react-bootstrap';
 
-import logo from '../assets/logo.png';
+import logoMain from '../assets/logoMain.jpg';
+import logoAdmin from '../assets/setting.png';
+import logoPatient from '../assets/logoUser.jpg';
+import logoDepartment from '../assets/logoDepartment.jpg';
 import { LATENCY_DELAY, POLL_INTERVAL } from '../config';
 
 import Reports from './Reports';
@@ -88,7 +91,11 @@ class App extends Component {
   render() {
     const address = this.state.publicKey;
     const {privateKey, kind}= this.state;
-	
+	let logo;
+	if(kind ==='admin') logo = logoAdmin;
+	else if(kind === 'department') logo = logoDepartment;
+	else if(kind === 'patient') logo = logoPatient;
+	else logo = logoMain;
     return (
       <div className='App'>
         <div>
@@ -99,14 +106,10 @@ class App extends Component {
             framed
           />) : (<img className='logo' src={logo}></img>)}
 		</div>
-        <br />
-        <div>
-          Welcome to the MediChain
-        </div>
-        {kind === 'admin' ? (<div></div>) : (<Bio bio={this.state.bio} name={this.state.name} kind={kind} />)}
+        {kind === 'admin' ? (<div></div>) : (<Bio  bio={this.state.bio} name={this.state.name} kind={kind} />)}
         <br />
         {
-        (kind === 'admin') ? (<Tabs defaultActivateKey = "departments" transition={false}>
+        (kind === 'admin') ? (<Tabs defaultActivateKey = "departments" transition={true} className="card-maker card-rectify Block black tabs-sanitize">
 			<Tab eventKey = "departments" title="Valid Departments" >
 				<div>
 					<Departments departments={this.state.validDepartments}/>
@@ -119,12 +122,12 @@ class App extends Component {
 			</Tab>
 			</Tabs>) : (
 			<div className='LedgerInfo'>
-				<div>Address: {address}</div>
-				<Button bsStyle="danger" onClick={this.toggleQR} >{this.state.showQR ? 'Hide QR' : 'Show QR'}</Button>
+				<div className="black card-maker card-rectify">Address: {address}</div>
+				<Button bsStyle="danger mb-2 mt-2" onClick={this.toggleQR} >{this.state.showQR ? 'Hide QR' : 'Show QR'}</Button>
 			</div>)
 		}
         {
-			(address && kind === 'patient') ? (<Tabs defaultActivateKey = "reports" transition={false}>
+			(address && kind === 'patient') ? (<Tabs defaultActivateKey = "reports" transition={true}  className="card-maker card-rectify Block black tabs-sanitize">
 				<Tab eventKey = "reports" title="Reports" >
 				<div>
 					<Reports reports={this.state.reports} onShare={this.onShare.bind(this)}/>
@@ -143,9 +146,9 @@ class App extends Component {
 			</Tabs>) : (<div></div>)
 		}
         {
-			(address && kind === "department") ? (<Tabs defaultActivateKey = "patientReports" transition={false}>
+			(address && kind === "department") ? (<Tabs defaultActivateKey = "patientReports" transition={true}  className="card-maker card-rectify Block black tabs-sanitize">
 				<Tab eventKey = "patientReports" title="Patient Reports" >
-					<div>
+					<div className="cover">
 						<PatientReports patientReports={this.state.patientReports} />
 					</div>
 				</Tab>

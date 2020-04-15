@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import PatientReport from './PatientReport';
 
 export default class PatientReports extends Component {
@@ -18,9 +20,9 @@ export default class PatientReports extends Component {
 		render(){
 			const reports = this.state.patientReports;
 			return(
-				<div>
+				<Scrollbars style={{ height: 300 }}>
 					{ reports.map(report => (<PatientReport patientReport={report} key={'patient' + report.id} />)) }
-				</div>
+				</Scrollbars>
 			)
 			}
 	}

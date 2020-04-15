@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import QrReader from 'react-qr-reader';
 import {FormGroup, FormControl, Button} from 'react-bootstrap';
+import { css } from "@emotion/core";
+import { CircleLoader } from "react-spinners";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  background-color : transparent;
+`;
+
 
 export default class CreateDepartment extends Component {
 	state = {
@@ -43,14 +53,14 @@ export default class CreateDepartment extends Component {
 				})
 			})
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json =>console.log(json));
 		}
 	toggleQrScan = ()=> {
 		this.setState({showScanner : !this.state.showScanner});
 		}
     handleScan = data => {
 		if (data) {
-		  this.setState({publicKey: data});
+		  this.setState({publicKey: data,showScanner : false});
 		}
     }
 	handleError = err => {
@@ -103,12 +113,14 @@ export default class CreateDepartment extends Component {
 				</FormGroup>
 				{
 				this.state.showScanner ? (
-				 <QrReader
-					  delay={300}
-					  onError={this.handleError}
-					  onScan={this.handleScan}
-					  style={{ width: '100%' }}
-				/>
+				<div className="make-modal">
+					<QrReader
+						delay={300}
+						onError={this.handleError}
+						onScan={this.handleScan}
+						style={{ width: '100' }}
+					/>
+				</div>
 				) : (<div></div>)
 				}
 				<FormGroup>

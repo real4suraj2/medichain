@@ -1,4 +1,6 @@
 import React,{ Component } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import SharedReport from './SharedReport';
 
 export default class Reports extends Component {
@@ -24,7 +26,7 @@ export default class Reports extends Component {
 		const ids = Object.keys(reports);
 		ids.forEach(id => console.log(reports[id]));
 		return(
-		<div>
+		<Scrollbars style={{ height: 300 }}>
 		{
 			ids.map(id=>{
 				const to = reports[id];
@@ -32,7 +34,7 @@ export default class Reports extends Component {
 				return (<SharedReport rid = {id} rto={to} key={key}/>);
 			})
 		}
-		</div>
+		</Scrollbars>
 		)
 		}
 	

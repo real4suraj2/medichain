@@ -20,12 +20,12 @@ export default class SharedReport extends Component {
 	render(){
 		const {id,to} = this.state;
 		return(
-		<div>
-		<ListGroup>
-			<ListGroupItem className="active">Id : {id}</ListGroupItem>
-			<ListGroupItem className="active"> {'<------------With---------->'} </ListGroupItem>
+		<div className="card-maker Block">
+		<ListGroup className="list-show">
+			<ListGroupItem>Id : {id}</ListGroupItem>
+			<ListGroupItem> {'<------------With---------->'} </ListGroupItem>
 			{
-			to.map(address=>(<ListGroupItem className="active">{address}</ListGroupItem>))
+			to.map(address=>(<ListGroupItem>{address}</ListGroupItem>))
 			}
 		</ListGroup>
 		</div>
