@@ -39,7 +39,7 @@
     "bootstrap": "^4.4.1",
     "crypto": "^1.0.1",
     "elliptic": "^6.4.1",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "hex-to-binary": "^1.0.1",
     "history": "^4.7.2",
     "mongoose": "^5.8.9",
